@@ -70,9 +70,43 @@ jobs:
           cd build/Build/Products/Debug-iphonesimulator
           zip -qry "$GITHUB_WORKSPACE/Vokabel-simulator.zip" VocabWallpaper.app
 
-      - name: Upload
+      - name: Upload simulator build
         uses: actions/upload-artifact@v4
         with:
           name: Vokabel-simulator-app
           path: Vokabel-simulator.zip
+          if-no-files-found: error
+
+      # An unsigned device build, packaged as an .ipa for sideloading tools
+      # (AltStore, Sideloadly) that re-sign with the user's own Apple ID.
+      # Entitlements are stripped for this variant on purpose: App Groups are
+      # a paid-account capability, and leaving it in makes re-signing with a
+      # free Apple ID fail. The app detects the missing group at runtime and
+      # falls back to standard UserDefaults.
+      - name: Archive for device, unsigned
+        run: |
+          set -o pipefail
+          xcodebuild archive \
+            -project VocabWallpaper.xcodeproj \
+            -scheme VocabWallpaper \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath build/Vokabel.xcarchive \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_ENTITLEMENTS=""
+
+      - name: Package as .ipa
+        run: |
+          mkdir -p Payload
+          cp -R build/Vokabel.xcarchive/Products/Applications/VocabWallpaper.app Payload/
+          zip -qry Vokabel-unsigned.ipa Payload
+          ls -lh Vokabel-unsigned.ipa
+
+      - name: Upload unsigned ipa
+        uses: actions/upload-artifact@v4
+        with:
+          name: Vokabel-unsigned-ipa
+          path: Vokabel-unsigned.ipa
           if-no-files-found: error
