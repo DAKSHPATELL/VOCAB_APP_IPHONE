@@ -1,8 +1,10 @@
 name: Build
 
+# `push` is scoped to main on purpose: with `branches: ['**']` every push to a
+# PR branch matched both triggers and ran the whole workflow twice.
 on:
   push:
-    branches: ['**']
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
