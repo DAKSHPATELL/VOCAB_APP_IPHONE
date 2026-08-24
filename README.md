@@ -113,10 +113,27 @@ xcrun simctl install booted VocabWallpaper.app
 xcrun simctl launch booted com.dakshpatel.vocabwallpaper
 ```
 
-That artifact is a **simulator** binary — it cannot be installed on a physical
-iPhone. Nothing can be, without code signing tied to an Apple developer identity
-and your device. To get it onto your own phone, open the project in Xcode, select
-your device, and press Run.
+That artifact is a **simulator** binary — it will not install on a physical
+iPhone.
+
+The same run also uploads **`Vokabel-unsigned-ipa`**, a Release device build with
+no signature. Nothing can be installed on an iPhone without a signature tied to
+an Apple developer identity and that specific device, so this .ipa has to be
+re-signed with *your* Apple ID before it will run. Two ways:
+
+| Route | What it needs | Lasts |
+|---|---|---|
+| **Xcode** (recommended) | Open the project, select your device, press Run | 7 days on a free Apple ID |
+| **Sideloadly / AltStore** | Drop the .ipa in, sign in with your Apple ID | 7 days on a free Apple ID |
+
+Entitlements are deliberately stripped from the .ipa: App Groups is a paid
+Developer Program capability, and leaving it in makes re-signing with a free
+Apple ID fail. The app notices at runtime and falls back to standard
+`UserDefaults` — everything works, the widget just uses default filters rather
+than following yours.
+
+There is no route to a tap-to-install build without a paid Apple Developer
+Program membership; that is an Apple restriction, not a gap in this project.
 
 ## Layout
 
