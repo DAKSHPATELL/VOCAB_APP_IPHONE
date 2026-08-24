@@ -285,6 +285,14 @@ public struct WallpaperCanvas: View {
     }
 
     static func hourStamp(for hourIndex: Int) -> String {
+        WallpaperCanvasHour.stamp(for: hourIndex)
+    }
+}
+
+/// Wall-clock label for an hour index, public so callers outside the package
+/// (the app's CI export path) can name files consistently with the design.
+public enum WallpaperCanvasHour {
+    public static func stamp(for hourIndex: Int) -> String {
         let hour = ((hourIndex % 24) + 24) % 24
         return String(format: "%02d:00", hour)
     }
