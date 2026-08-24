@@ -32,12 +32,14 @@ struct ExportView: View {
                     }
                     TextField("Album name", text: $albumName)
                         .textInputAutocapitalization(.words)
-                    Toggle("Clear the album first", isOn: $replaceExisting)
+                    Toggle("Replace the previous export", isOn: $replaceExisting)
                 } header: {
                     Text("Batch")
                 } footer: {
                     Text(format.detail + " Estimated total: "
-                         + estimatedSize + " for \(hours) images at \(model.canvas.resolutionLabel).")
+                         + estimatedSize + " for \(hours) images at \(model.canvas.resolutionLabel). "
+                         + "Replacing deletes only the wallpapers this app exported last time — "
+                         + "anything else in the album is left alone.")
                 }
 
                 Section("Target") {

@@ -71,7 +71,11 @@ final class HourlyRotationTests: XCTestCase {
     }
 
     func testHourIndexIsStableInsideAnHour() {
-        let base = Date(timeIntervalSince1970: 1_700_000_000)
+        // Anchor to the top of the hour: 1_700_000_000 is 800s into one, so
+        // walking 3599s forward from it legitimately crosses into the next hour.
+        let base = HourlyRotation.startOfHour(
+            containing: Date(timeIntervalSince1970: 1_700_000_000), timeZone: utc
+        )
         let expected = HourlyRotation.hourIndex(for: base, timeZone: utc)
         for offset in stride(from: 0.0, to: 3_599.0, by: 421) {
             XCTAssertEqual(

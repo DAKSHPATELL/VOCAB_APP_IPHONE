@@ -60,15 +60,20 @@ enum PhotoLibraryService {
         ).firstObject
     }
 
-    /// Saves one image and files it in `album`.
-    static func save(imageData: Data, to album: PHAssetCollection?) async throws {
+    /// Saves one image, files it in `album`, and returns its local identifier so
+    /// the caller can clean up exactly this asset later.
+    @discardableResult
+    static func save(imageData: Data, to album: PHAssetCollection?) async throws -> String? {
+        var identifier: String?
         do {
             try await PHPhotoLibrary.shared().performChanges {
                 let creation = PHAssetCreationRequest.forAsset()
                 creation.addResource(with: .photo, data: imageData, options: nil)
 
+                guard let placeholder = creation.placeholderForCreatedAsset else { return }
+                identifier = placeholder.localIdentifier
+
                 guard let album,
-                      let placeholder = creation.placeholderForCreatedAsset,
                       let albumChange = PHAssetCollectionChangeRequest(for: album)
                 else { return }
                 albumChange.addAssets([placeholder] as NSArray)
@@ -76,6 +81,7 @@ enum PhotoLibraryService {
         } catch {
             throw Failure.saveFailed(error.localizedDescription)
         }
+        return identifier
     }
 
     /// Number of items already sitting in the album, used to warn about
@@ -85,11 +91,17 @@ enum PhotoLibraryService {
         return PHAsset.fetchAssets(in: album, options: nil).count
     }
 
-    /// Removes every asset the app previously put in the album, so re-exporting
-    /// replaces rather than accumulates.
-    static func emptyAlbum(named title: String) async throws {
-        guard let album = findAlbum(named: title) else { return }
-        let assets = PHAsset.fetchAssets(in: album, options: nil)
+    /// Deletes only the assets this app created in a previous export.
+    ///
+    /// Deliberately identifier-scoped rather than "everything in the album":
+    /// `PHAssetChangeRequest.deleteAssets` removes photos from the *library*,
+    /// not just from the album, so clearing an album by contents would destroy
+    /// any picture the user had filed there themselves. iOS also lets an app
+    /// delete its own assets without a confirmation prompt, which it would show
+    /// for anyone else's.
+    static func deleteAssets(withIdentifiers identifiers: [String]) async throws {
+        guard !identifiers.isEmpty else { return }
+        let assets = PHAsset.fetchAssets(withLocalIdentifiers: identifiers, options: nil)
         guard assets.count > 0 else { return }
         do {
             try await PHPhotoLibrary.shared().performChanges {

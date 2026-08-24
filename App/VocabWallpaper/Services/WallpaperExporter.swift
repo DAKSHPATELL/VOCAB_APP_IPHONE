@@ -56,7 +56,10 @@ final class WallpaperExporter {
             try await PhotoLibraryService.requestAccess()
 
             if replaceExisting {
-                try await PhotoLibraryService.emptyAlbum(named: albumName)
+                try await PhotoLibraryService.deleteAssets(
+                    withIdentifiers: SharedStore.exportedAssetIdentifiers
+                )
+                SharedStore.exportedAssetIdentifiers = []
             }
             let album = try await PhotoLibraryService.album(named: albumName)
 
@@ -67,6 +70,7 @@ final class WallpaperExporter {
             }
 
             var saved = 0
+            var identifiers: [String] = []
             for scheduled in schedule {
                 let data: Data
                 switch format {
@@ -86,7 +90,9 @@ final class WallpaperExporter {
                     )
                 }
 
-                try await PhotoLibraryService.save(imageData: data, to: album)
+                if let identifier = try await PhotoLibraryService.save(imageData: data, to: album) {
+                    identifiers.append(identifier)
+                }
                 saved += 1
                 state = .running(completed: saved, total: schedule.count)
 
@@ -95,6 +101,7 @@ final class WallpaperExporter {
                 await Task.yield()
             }
 
+            SharedStore.exportedAssetIdentifiers += identifiers
             SharedStore.lastExportDate = .now
             state = .finished(saved: saved, albumName: albumName)
         } catch {

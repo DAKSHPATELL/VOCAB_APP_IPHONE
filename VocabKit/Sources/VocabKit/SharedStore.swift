@@ -14,6 +14,7 @@ public enum SharedStore {
     private static let settingsKey = "wallpaper.settings.v1"
     private static let favouritesKey = "wallpaper.favourites.v1"
     private static let lastExportKey = "wallpaper.lastExport.v1"
+    private static let exportedAssetsKey = "wallpaper.exportedAssets.v1"
 
     public static let defaults: UserDefaults = {
         UserDefaults(suiteName: appGroupIdentifier) ?? .standard
@@ -44,6 +45,14 @@ public enum SharedStore {
 
     public static func save(favourites: Set<String>) {
         defaults.set(Array(favourites).sorted(), forKey: favouritesKey)
+    }
+
+    /// Local identifiers of the Photos assets this app created, so a re-export
+    /// can clean up after itself without touching anything the user put in the
+    /// same album.
+    public static var exportedAssetIdentifiers: [String] {
+        get { defaults.stringArray(forKey: exportedAssetsKey) ?? [] }
+        set { defaults.set(newValue, forKey: exportedAssetsKey) }
     }
 
     public static var lastExportDate: Date? {
