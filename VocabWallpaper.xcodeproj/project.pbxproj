@@ -1,0 +1,536 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		86EEE74AA122BAE03050F9E4 /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E616674DAA866D5A0EC510 /* PhotoLibraryService.swift */; };
+		94DE53C75382A8556E9665CA /* WallpaperExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2033DB8840AD0CC685407E2F /* WallpaperExporter.swift */; };
+		ACE05129D5732B75F420F5E7 /* ExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CD2A96574C5EA91ACDEAC /* ExportView.swift */; };
+		57A56CEAC1586607293E9E6B /* HowToView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AADA1E719D5B4B2B1A25D5 /* HowToView.swift */; };
+		739766F8366EBC281E6915A0 /* NowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAB6F963D5C0038E81AE811 /* NowView.swift */; };
+		E360E3F3D32B33CB260D17DA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135B12171F987E1262E28FA9 /* SettingsView.swift */; };
+		C7121E8738C5E353EB58976C /* WallpaperPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02302A621727AF28618B3E3 /* WallpaperPreview.swift */; };
+		F1BA254DD365E0781A7775D3 /* WordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95228F5A492E5450CEB9851C /* WordListView.swift */; };
+		F44DCFE00DD8E6B1950CD3E6 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94678317EF97EE56CC02471D /* AppModel.swift */; };
+		F558FB21411FDEDF7A8611D2 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBF3293D63AE588BF1201B8 /* RootView.swift */; };
+		661E5A2E800F185622E3F5F4 /* VocabWallpaperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A0FBEF19F97D25AA4A5A9E /* VocabWallpaperApp.swift */; };
+		1F8927CF14DBA5D01AA48C4B /* VocabHomeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55C0CA42E877C0663502C8A /* VocabHomeWidget.swift */; };
+		BC830EC8C975CBBAFFCDC2C0 /* VocabLockWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35EC46197CC0772E19D810E /* VocabLockWidget.swift */; };
+		9BC90E485F641AFE0290DF12 /* VocabTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1315966D21ED4591D7E206C6 /* VocabTimelineProvider.swift */; };
+		5490C4248180B9F37A9D74D8 /* VocabWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9196C54C24FD9EA4C195DBD /* VocabWidgetBundle.swift */; };
+		C7F4E5456F1D280C83D41AF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E72642F17281BF80FAD93CD5 /* Assets.xcassets */; };
+		6B09098FF9C58380BCDDB5FA /* VocabKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3725CA52D5CAE967E42E9250 /* VocabKit */; };
+		0A6783317C826DFF56BEE7CF /* VocabKit in Frameworks */ = {isa = PBXBuildFile; productRef = 729FDC70D5677A9584BE47D1 /* VocabKit */; };
+		95D472BFDB0F9B7A8098E0A2 /* VocabWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 76A4701181DB9253A447C9E9 /* VocabWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		46DD5C3011618C51430B555A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 244210E48437B6556980A702 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 86A838FE5EDBD92D4572B4DE;
+			remoteInfo = VocabWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8BD09071B85DBB888F9535CD /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				95D472BFDB0F9B7A8098E0A2 /* VocabWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E72642F17281BF80FAD93CD5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		32E616674DAA866D5A0EC510 /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
+		2033DB8840AD0CC685407E2F /* WallpaperExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperExporter.swift; sourceTree = "<group>"; };
+		DA3CD2A96574C5EA91ACDEAC /* ExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
+		02AADA1E719D5B4B2B1A25D5 /* HowToView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToView.swift; sourceTree = "<group>"; };
+		EEAB6F963D5C0038E81AE811 /* NowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowView.swift; sourceTree = "<group>"; };
+		135B12171F987E1262E28FA9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A02302A621727AF28618B3E3 /* WallpaperPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallpaperPreview.swift; sourceTree = "<group>"; };
+		95228F5A492E5450CEB9851C /* WordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListView.swift; sourceTree = "<group>"; };
+		94678317EF97EE56CC02471D /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		553DB2E0C9936003AEA4BEFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2BBF3293D63AE588BF1201B8 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		0F5A0779E0C27004F67D219C /* VocabWallpaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VocabWallpaper.entitlements; sourceTree = "<group>"; };
+		60A0FBEF19F97D25AA4A5A9E /* VocabWallpaperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabWallpaperApp.swift; sourceTree = "<group>"; };
+		8F53302280D6F7E2A9F3467E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A55C0CA42E877C0663502C8A /* VocabHomeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabHomeWidget.swift; sourceTree = "<group>"; };
+		A35EC46197CC0772E19D810E /* VocabLockWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabLockWidget.swift; sourceTree = "<group>"; };
+		1315966D21ED4591D7E206C6 /* VocabTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabTimelineProvider.swift; sourceTree = "<group>"; };
+		23F3F52DDC07AF1E6D8B2101 /* VocabWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VocabWidget.entitlements; sourceTree = "<group>"; };
+		C9196C54C24FD9EA4C195DBD /* VocabWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabWidgetBundle.swift; sourceTree = "<group>"; };
+		763D774377779C412BB71F6F /* VocabWallpaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VocabWallpaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		76A4701181DB9253A447C9E9 /* VocabWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = VocabWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		91024282FFD499F5807DB5BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B09098FF9C58380BCDDB5FA /* VocabKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF4D34BF683C906CF34F6E55 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A6783317C826DFF56BEE7CF /* VocabKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0035FE99EA2940F7FA633A58 = {
+			isa = PBXGroup;
+			children = (
+				D018F3BD88191A52A90FEE33 /* App */,
+				11CA45E56CE6805F12DF8C62 /* Widget */,
+				81DE57EA541F9E69F763C4E6 /* Frameworks */,
+				5BAB63C60BF318DAB40A4F04 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5BAB63C60BF318DAB40A4F04 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				763D774377779C412BB71F6F /* VocabWallpaper.app */,
+				76A4701181DB9253A447C9E9 /* VocabWidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		81DE57EA541F9E69F763C4E6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D018F3BD88191A52A90FEE33 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B2503D6D57E5FA08A332A44B /* VocabWallpaper */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		B2503D6D57E5FA08A332A44B /* VocabWallpaper */ = {
+			isa = PBXGroup;
+			children = (
+				E72642F17281BF80FAD93CD5 /* Assets.xcassets */,
+				D26C91D01E4A9BD052BB7721 /* Services */,
+				BBB375B689DAFBF92433C223 /* Views */,
+				94678317EF97EE56CC02471D /* AppModel.swift */,
+				553DB2E0C9936003AEA4BEFA /* Info.plist */,
+				2BBF3293D63AE588BF1201B8 /* RootView.swift */,
+				0F5A0779E0C27004F67D219C /* VocabWallpaper.entitlements */,
+				60A0FBEF19F97D25AA4A5A9E /* VocabWallpaperApp.swift */,
+			);
+			path = VocabWallpaper;
+			sourceTree = "<group>";
+		};
+		D26C91D01E4A9BD052BB7721 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				32E616674DAA866D5A0EC510 /* PhotoLibraryService.swift */,
+				2033DB8840AD0CC685407E2F /* WallpaperExporter.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		BBB375B689DAFBF92433C223 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DA3CD2A96574C5EA91ACDEAC /* ExportView.swift */,
+				02AADA1E719D5B4B2B1A25D5 /* HowToView.swift */,
+				EEAB6F963D5C0038E81AE811 /* NowView.swift */,
+				135B12171F987E1262E28FA9 /* SettingsView.swift */,
+				A02302A621727AF28618B3E3 /* WallpaperPreview.swift */,
+				95228F5A492E5450CEB9851C /* WordListView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		11CA45E56CE6805F12DF8C62 /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				06189AACC1AFD24F1BEB6D8A /* VocabWidget */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
+		06189AACC1AFD24F1BEB6D8A /* VocabWidget */ = {
+			isa = PBXGroup;
+			children = (
+				8F53302280D6F7E2A9F3467E /* Info.plist */,
+				A55C0CA42E877C0663502C8A /* VocabHomeWidget.swift */,
+				A35EC46197CC0772E19D810E /* VocabLockWidget.swift */,
+				1315966D21ED4591D7E206C6 /* VocabTimelineProvider.swift */,
+				23F3F52DDC07AF1E6D8B2101 /* VocabWidget.entitlements */,
+				C9196C54C24FD9EA4C195DBD /* VocabWidgetBundle.swift */,
+			);
+			path = VocabWidget;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AC44A5EE06496B21A17CA082 /* VocabWallpaper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 671B466153DB183FE9E409BE /* Build configuration list for PBXNativeTarget "VocabWallpaper" */;
+			buildPhases = (
+				D8AFF257B45D0C513672EC45 /* Sources */,
+				91024282FFD499F5807DB5BC /* Frameworks */,
+				DC549ACCB7C726C62ECFD4E2 /* Resources */,
+				8BD09071B85DBB888F9535CD /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				875C1FA0DA5A77AA8F0F665F /* PBXTargetDependency */,
+			);
+			name = VocabWallpaper;
+			packageProductDependencies = (
+				3725CA52D5CAE967E42E9250 /* VocabKit */,
+			);
+			productName = VocabWallpaper;
+			productReference = 763D774377779C412BB71F6F /* VocabWallpaper.app */;
+			productType = "com.apple.product-type.application";
+		};
+		86A838FE5EDBD92D4572B4DE /* VocabWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 80240119E14C45A8301CA425 /* Build configuration list for PBXNativeTarget "VocabWidgetExtension" */;
+			buildPhases = (
+				22D724CE2CC6B5D6F6EFBDBE /* Sources */,
+				BF4D34BF683C906CF34F6E55 /* Frameworks */,
+				73B75A37698D92659A180FC5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VocabWidgetExtension;
+			packageProductDependencies = (
+				729FDC70D5677A9584BE47D1 /* VocabKit */,
+			);
+			productName = VocabWidgetExtension;
+			productReference = 76A4701181DB9253A447C9E9 /* VocabWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		244210E48437B6556980A702 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					AC44A5EE06496B21A17CA082 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					86A838FE5EDBD92D4572B4DE = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = 4AA05EC3301949773ED0AC0A /* Build configuration list for PBXProject "VocabWallpaper" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0035FE99EA2940F7FA633A58;
+			packageReferences = (
+				EC7FA56693CD3C3ABFF686DF /* XCLocalSwiftPackageReference "VocabKit" */,
+			);
+			productRefGroup = 5BAB63C60BF318DAB40A4F04 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AC44A5EE06496B21A17CA082 /* VocabWallpaper */,
+				86A838FE5EDBD92D4572B4DE /* VocabWidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DC549ACCB7C726C62ECFD4E2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7F4E5456F1D280C83D41AF9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		73B75A37698D92659A180FC5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D8AFF257B45D0C513672EC45 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				86EEE74AA122BAE03050F9E4 /* PhotoLibraryService.swift in Sources */,
+				94DE53C75382A8556E9665CA /* WallpaperExporter.swift in Sources */,
+				ACE05129D5732B75F420F5E7 /* ExportView.swift in Sources */,
+				57A56CEAC1586607293E9E6B /* HowToView.swift in Sources */,
+				739766F8366EBC281E6915A0 /* NowView.swift in Sources */,
+				E360E3F3D32B33CB260D17DA /* SettingsView.swift in Sources */,
+				C7121E8738C5E353EB58976C /* WallpaperPreview.swift in Sources */,
+				F1BA254DD365E0781A7775D3 /* WordListView.swift in Sources */,
+				F44DCFE00DD8E6B1950CD3E6 /* AppModel.swift in Sources */,
+				F558FB21411FDEDF7A8611D2 /* RootView.swift in Sources */,
+				661E5A2E800F185622E3F5F4 /* VocabWallpaperApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		22D724CE2CC6B5D6F6EFBDBE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F8927CF14DBA5D01AA48C4B /* VocabHomeWidget.swift in Sources */,
+				BC830EC8C975CBBAFFCDC2C0 /* VocabLockWidget.swift in Sources */,
+				9BC90E485F641AFE0290DF12 /* VocabTimelineProvider.swift in Sources */,
+				5490C4248180B9F37A9D74D8 /* VocabWidgetBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		875C1FA0DA5A77AA8F0F665F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 86A838FE5EDBD92D4572B4DE /* VocabWidgetExtension */;
+			targetProxy = 46DD5C3011618C51430B555A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		73EBF6644258C120893E685D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOL_FRAMEWORKS = SwiftUI;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		0B0C687DF8B6B8DC790B519C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOL_FRAMEWORKS = SwiftUI;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B00CCDD09424E369308D67FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = App/VocabWallpaper/VocabWallpaper.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/VocabWallpaper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dakshpatel.vocabwallpaper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1B104479E55E37CF8A63CBDF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = App/VocabWallpaper/VocabWallpaper.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/VocabWallpaper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dakshpatel.vocabwallpaper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9AD757328FBA0087E54990FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Widget/VocabWidget/VocabWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Widget/VocabWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dakshpatel.vocabwallpaper.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D20A933185A2F18535D467E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Widget/VocabWidget/VocabWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Widget/VocabWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dakshpatel.vocabwallpaper.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4AA05EC3301949773ED0AC0A /* Build configuration list for PBXProject "VocabWallpaper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73EBF6644258C120893E685D /* Debug */,
+				0B0C687DF8B6B8DC790B519C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		671B466153DB183FE9E409BE /* Build configuration list for PBXNativeTarget "VocabWallpaper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B00CCDD09424E369308D67FA /* Debug */,
+				1B104479E55E37CF8A63CBDF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		80240119E14C45A8301CA425 /* Build configuration list for PBXNativeTarget "VocabWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9AD757328FBA0087E54990FE /* Debug */,
+				D20A933185A2F18535D467E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		EC7FA56693CD3C3ABFF686DF /* XCLocalSwiftPackageReference "VocabKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = VocabKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3725CA52D5CAE967E42E9250 /* VocabKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VocabKit;
+		};
+		729FDC70D5677A9584BE47D1 /* VocabKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VocabKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 244210E48437B6556980A702 /* Project object */;
+}
