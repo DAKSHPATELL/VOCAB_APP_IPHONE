@@ -82,6 +82,42 @@ settings instead of reading yours.
 
 Build and run on a device; widgets are only really testable on hardware.
 
+### If you are signing with a free Apple ID
+
+App Groups are not available to free personal teams — only to paid Apple
+Developer Program accounts. With a free Apple ID the build fails at the signing
+step until you remove the capability:
+
+1. Delete `com.apple.security.application-groups` from both `.entitlements`
+   files (or clear `CODE_SIGN_ENTITLEMENTS` on both targets).
+2. Everything still builds and runs. `SharedStore` falls back to standard
+   `UserDefaults`, and Settings will honestly report `App Group: Not configured`.
+
+The only thing you lose is the app and the widget sharing settings: the widget
+falls back to the defaults instead of following your filters. The word shown
+still matches, because the rotation is computed from the clock rather than from
+anything the two processes pass between them.
+
+Free personal provisioning also expires after 7 days, after which the app must
+be re-run from Xcode.
+
+## Downloads
+
+Every push builds on a macOS runner and uploads a simulator build:
+**[Actions](../../actions) → the latest `Build` run → Artifacts →
+`Vokabel-simulator-app`**. Unzip and drag `VocabWallpaper.app` onto a booted iOS
+Simulator, or:
+
+```bash
+xcrun simctl install booted VocabWallpaper.app
+xcrun simctl launch booted com.dakshpatel.vocabwallpaper
+```
+
+That artifact is a **simulator** binary — it cannot be installed on a physical
+iPhone. Nothing can be, without code signing tied to an Apple developer identity
+and your device. To get it onto your own phone, open the project in Xcode, select
+your device, and press Run.
+
 ## Layout
 
 ```

@@ -1,0 +1,78 @@
+name: Build
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generators:
+    name: Generators and structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate the Xcode project
+        run: python3 tools/validate_pbxproj.py
+
+      - name: Structural check over the Swift sources
+        run: python3 tools/check_swift_balance.py
+
+      - name: vocabulary.json matches its generator
+        run: |
+          python3 tools/build_vocabulary.py
+          git diff --exit-code -- VocabKit/Sources/VocabKit/Resources/vocabulary.json
+
+  package:
+    name: VocabKit tests
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Toolchain
+        run: swift --version && xcodebuild -version
+
+      # VocabKit also supports macOS so its logic can be tested natively here,
+      # without booting a simulator. The UIKit-only parts are behind
+      # `#if canImport(UIKit)` and are covered by the app build below.
+      - name: Test
+        run: swift test --package-path VocabKit
+
+  app:
+    name: Build app and widget
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Toolchain
+        run: xcodebuild -version
+
+      - name: Build for the simulator
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project VocabWallpaper.xcodeproj \
+            -scheme VocabWallpaper \
+            -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
+
+      - name: Package the simulator build
+        run: |
+          cd build/Build/Products/Debug-iphonesimulator
+          zip -qry "$GITHUB_WORKSPACE/Vokabel-simulator.zip" VocabWallpaper.app
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: Vokabel-simulator-app
+          path: Vokabel-simulator.zip
+          if-no-files-found: error

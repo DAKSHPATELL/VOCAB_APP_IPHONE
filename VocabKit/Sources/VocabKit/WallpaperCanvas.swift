@@ -222,15 +222,19 @@ public struct WallpaperCanvas: View {
                 }
             }
         }
+        // Order matters: the insets have to be applied to the text block
+        // *before* it is placed in the full-canvas frame. Padding a view that
+        // already fills the canvas grows it past the edges instead of moving
+        // it, which silently pushed the word off-frame.
         .frame(width: metrics.contentWidth, alignment: .leading)
+        .padding(.leading, metrics.sideInset)
+        .padding(.top, metrics.topInset)
+        .padding(.bottom, metrics.bottomInset)
         .frame(
             width: metrics.width,
             height: metrics.height,
             alignment: metrics.contentAlignment
         )
-        .padding(.leading, metrics.sideInset)
-        .padding(.top, metrics.topInset)
-        .padding(.bottom, metrics.bottomInset)
         .opacity(settings.layout == .homeScreen ? 0.9 : 1)
     }
 
@@ -298,16 +302,18 @@ private struct Metrics {
     var sideInset: CGFloat { width * 0.098 }
     var contentWidth: CGFloat { width - sideInset * 2 }
 
+    /// Pairs with `topInset`/`bottomInset`: the padded block is anchored here
+    /// inside the canvas, so `.topLeading` + a 30% top inset puts the word just
+    /// below the clock, and `.leading` alone centres it vertically.
     var contentAlignment: Alignment {
         switch layout {
-        case .lockScreen: .leading          // vertical position handled by insets
+        case .lockScreen: .topLeading
         case .homeScreen: .leading
         case .poster: .bottomLeading
         }
     }
 
-    /// Keeps the clock zone clear on the lock screen and the icon grid readable
-    /// on the home screen.
+    /// Keeps the clock zone clear on the lock screen.
     var topInset: CGFloat {
         switch layout {
         case .lockScreen: height * 0.30
@@ -316,6 +322,7 @@ private struct Metrics {
         }
     }
 
+    /// Clears the flashlight and camera buttons at the bottom of the lock screen.
     var bottomInset: CGFloat {
         switch layout {
         case .lockScreen: height * 0.16
