@@ -11,6 +11,7 @@ struct VocabWallpaperApp: App {
                 .environment(model)
                 .preferredColorScheme(.dark)
                 .tint(Ember.flame)
+                .task { await WallpaperDump.runIfRequested(model: model) }
         }
     }
 }

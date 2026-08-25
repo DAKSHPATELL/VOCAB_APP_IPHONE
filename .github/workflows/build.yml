@@ -112,3 +112,77 @@ jobs:
           name: Vokabel-unsigned-ipa
           path: Vokabel-unsigned.ipa
           if-no-files-found: error
+
+  wallpapers:
+    name: Render wallpapers in a simulator
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build for the simulator
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project VocabWallpaper.xcodeproj \
+            -scheme VocabWallpaper \
+            -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
+
+      - name: Boot a simulator
+        run: |
+          SIM=$(xcrun simctl list devices available -j | python3 -c "
+          import sys, json
+          devices = json.load(sys.stdin)['devices']
+          best = None
+          for runtime, entries in devices.items():
+              if 'iOS' not in runtime:
+                  continue
+              for device in entries:
+                  if 'iPhone' in device['name']:
+                      best = device['udid']
+                      if 'Pro Max' in device['name']:
+                          print(best); raise SystemExit
+          print(best or '')
+          ")
+          test -n "$SIM" || { echo 'no iPhone simulator available'; exit 1; }
+          echo "SIM=$SIM" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM" || true
+          xcrun simctl bootstatus "$SIM" -b
+
+      - name: Install and render
+        run: |
+          set -e
+          BUNDLE=com.dakshpatel.vocabwallpaper
+          xcrun simctl install "$SIM" build/Build/Products/Debug-iphonesimulator/VocabWallpaper.app
+          xcrun simctl launch "$SIM" "$BUNDLE" \
+            --export-wallpapers --count 8 --canvas iphone-6.7
+
+          CONTAINER=$(xcrun simctl get_app_container "$SIM" "$BUNDLE" data)
+          for _ in $(seq 1 90); do
+            [ -f "$CONTAINER/Documents/export-complete" ] && break
+            sleep 2
+          done
+          test -f "$CONTAINER/Documents/export-complete" \
+            || { echo 'the app never finished rendering'; exit 1; }
+
+          mkdir -p out
+          cp -R "$CONTAINER/Documents/wallpapers/." out/
+          echo '--- manifest ---'
+          cat out/manifest.txt
+          ls -lh out
+
+      - name: Screenshot the running app
+        run: |
+          xcrun simctl io "$SIM" screenshot out/screenshot-now-tab.png
+          ls -lh out/screenshot-now-tab.png
+
+      - name: Upload wallpapers
+        uses: actions/upload-artifact@v4
+        with:
+          name: Vokabel-wallpapers
+          path: out
+          if-no-files-found: error

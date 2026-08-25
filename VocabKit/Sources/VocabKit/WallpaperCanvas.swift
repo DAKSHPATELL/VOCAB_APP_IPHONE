@@ -19,20 +19,25 @@ public struct WallpaperCanvas: View {
         self.settings = settings
     }
 
-    private var metrics: Metrics { Metrics(size: size, layout: settings.layout) }
-    private var accent: Color { Ember.accent(for: entry) }
+    private var palette: WallpaperPalette { .resolved(settings.theme) }
+    private var metrics: Metrics {
+        Metrics(size: size, layout: settings.layout, typeScale: palette.typeScale)
+    }
+    private var accent: Color { palette.accent(for: entry, theme: settings.theme) }
 
     public var body: some View {
         ZStack {
             ground
-            emberField
-            horizon
+            if palette.usesEmberField {
+                emberField
+                horizon
+            }
             if settings.grain > 0.01 { grainLayer }
-            vignette
+            if settings.vignette > 0.01 { vignette }
             content
         }
         .frame(width: size.width, height: size.height)
-        .background(Ember.void)
+        .background(palette.ground)
         .clipped()
         .environment(\.colorScheme, .dark)
         // Deliberately no `.drawingGroup()` here: it is a Metal fast path that
@@ -42,17 +47,21 @@ public struct WallpaperCanvas: View {
 
     // MARK: - Background
 
-    private var ground: some View {
-        LinearGradient(
-            stops: [
-                .init(color: Ember.pitch, location: 0.0),
-                .init(color: Ember.void, location: 0.34),
-                .init(color: Ember.ash, location: 0.78),
-                .init(color: Ember.soot, location: 1.0)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+    @ViewBuilder private var ground: some View {
+        if let stops = palette.groundGradient {
+            LinearGradient(
+                stops: [
+                    .init(color: stops[0], location: 0.0),
+                    .init(color: stops[1], location: 0.34),
+                    .init(color: stops[2], location: 0.78),
+                    .init(color: stops[3], location: 1.0)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        } else {
+            palette.ground
+        }
     }
 
     /// Three or four soft radial blooms, placed by a generator seeded on the
@@ -115,7 +124,7 @@ public struct WallpaperCanvas: View {
                 let y = generator.nextUnit() * canvasSize.height
                 let alpha = generator.nextUnit() * 0.11 * settings.grain
                 let rect = CGRect(x: x, y: y, width: unit, height: unit)
-                context.fill(Path(rect), with: .color(Ember.bone.opacity(alpha)))
+                context.fill(Path(rect), with: .color(palette.word.opacity(alpha)))
             }
 
             // A handful of brighter sparks, warmer and slightly larger.
@@ -128,7 +137,7 @@ public struct WallpaperCanvas: View {
                 let rect = CGRect(x: x, y: y, width: radius, height: radius)
                 context.fill(
                     Path(ellipseIn: rect),
-                    with: .color(Ember.amber.opacity(alpha * settings.grain))
+                    with: .color(palette.exampleHighlight.opacity(alpha * settings.grain))
                 )
             }
         }
@@ -163,8 +172,9 @@ public struct WallpaperCanvas: View {
                 Text(article)
                     .font(.system(size: metrics.articleSize, weight: .regular, design: .serif))
                     .italic()
-                    .foregroundStyle(accent.opacity(0.92))
-                    .shadow(color: accent.opacity(0.5), radius: metrics.height * 0.008)
+                    .foregroundStyle(palette.article)
+                    .shadow(color: accent.opacity(0.5 * palette.glow),
+                            radius: metrics.height * 0.008 * palette.glow)
                 Spacer().frame(height: metrics.height * 0.004)
             }
 
@@ -173,8 +183,8 @@ public struct WallpaperCanvas: View {
             if settings.showTranslation {
                 Spacer().frame(height: metrics.height * 0.014)
                 Text(entry.translation)
-                    .font(.system(size: metrics.translationSize, weight: .medium))
-                    .foregroundStyle(Ember.bone.opacity(0.88))
+                    .font(.system(size: metrics.translationSize, weight: .regular))
+                    .foregroundStyle(palette.translation)
                     .lineLimit(2)
                     .minimumScaleFactor(0.6)
             }
@@ -185,10 +195,10 @@ public struct WallpaperCanvas: View {
                     Text(entry.partOfSpeech.inflectionCaption.uppercased())
                         .font(.system(size: metrics.captionSize, weight: .semibold))
                         .tracking(metrics.captionSize * 0.16)
-                        .foregroundStyle(accent.opacity(0.75))
+                        .foregroundStyle(palette.captionAccent)
                     Text(inflection)
                         .font(.system(size: metrics.metaSize, weight: .regular, design: .serif))
-                        .foregroundStyle(Ember.smoke.opacity(0.85))
+                        .foregroundStyle(palette.meta)
                         .lineLimit(1)
                         .minimumScaleFactor(0.55)
                 }
@@ -197,14 +207,14 @@ public struct WallpaperCanvas: View {
             if settings.showExample {
                 Spacer().frame(height: metrics.height * 0.026)
                 Rectangle()
-                    .fill(Ember.hairline)
-                    .frame(width: metrics.contentWidth * 0.62, height: max(metrics.height * 0.0013, 0.5))
+                    .fill(palette.hairline)
+                    .frame(width: metrics.contentWidth * 0.42, height: max(metrics.height * 0.0009, 0.5))
                 Spacer().frame(height: metrics.height * 0.022)
 
                 Text(highlightedExample)
                     .font(.system(size: metrics.exampleSize, weight: .regular, design: .serif))
                     .italic()
-                    .foregroundStyle(Ember.bone.opacity(0.82))
+                    .foregroundStyle(palette.example)
                     .lineSpacing(metrics.exampleSize * 0.28)
                     .lineLimit(3)
                     .minimumScaleFactor(0.65)
@@ -214,7 +224,7 @@ public struct WallpaperCanvas: View {
                     Spacer().frame(height: metrics.height * 0.010)
                     Text(entry.exampleTranslation)
                         .font(.system(size: metrics.metaSize, weight: .regular))
-                        .foregroundStyle(Ember.dust)
+                        .foregroundStyle(palette.meta.opacity(0.85))
                         .lineSpacing(metrics.metaSize * 0.24)
                         .lineLimit(3)
                         .minimumScaleFactor(0.65)
@@ -241,13 +251,13 @@ public struct WallpaperCanvas: View {
     private var stampRow: some View {
         HStack(spacing: metrics.height * 0.010) {
             Text(Self.hourStamp(for: hourIndex))
-                .foregroundStyle(accent)
+                .foregroundStyle(palette.captionAccent)
             dot
             Text(entry.level.rawValue)
-                .foregroundStyle(Ember.smoke)
+                .foregroundStyle(palette.caption)
             dot
             Text(entry.partOfSpeech.germanLabel.uppercased())
-                .foregroundStyle(Ember.smoke)
+                .foregroundStyle(palette.caption)
         }
         .font(.system(size: metrics.captionSize, weight: .semibold))
         .tracking(metrics.captionSize * 0.22)
@@ -257,20 +267,28 @@ public struct WallpaperCanvas: View {
 
     private var dot: some View {
         Circle()
-            .fill(Ember.dust.opacity(0.7))
+            .fill(palette.caption.opacity(0.7))
             .frame(width: metrics.captionSize * 0.22, height: metrics.captionSize * 0.22)
     }
 
     private var headword: some View {
-        Text(entry.word)
-            .font(.system(size: metrics.wordSize(for: entry.word), weight: .bold, design: .serif))
-            .tracking(-metrics.wordSize(for: entry.word) * 0.018)
-            .foregroundStyle(Ember.accentGradient(for: entry))
+        let size = metrics.wordSize(for: entry.word)
+        return Text(entry.word)
+            .font(.system(size: size, weight: palette.glow > 0 ? .bold : .regular, design: .serif))
+            .tracking(size * (palette.glow > 0 ? -0.018 : 0.004))
+            .foregroundStyle(headwordStyle)
             .lineLimit(2)
             .minimumScaleFactor(0.42)
             .multilineTextAlignment(.leading)
-            .shadow(color: accent.opacity(0.55), radius: metrics.height * 0.020)
-            .shadow(color: Ember.blood.opacity(0.35), radius: metrics.height * 0.045)
+            .shadow(color: accent.opacity(0.55 * palette.glow),
+                    radius: metrics.height * 0.020 * palette.glow)
+    }
+
+    /// A gradient fill when the palette asks for one, a flat colour otherwise —
+    /// graphite would look cheap with a gradient running through it.
+    private var headwordStyle: AnyShapeStyle {
+        guard palette.wordGradient != nil else { return AnyShapeStyle(palette.word) }
+        return AnyShapeStyle(Ember.accentGradient(for: entry))
     }
 
     private var highlightedExample: AttributedString {
@@ -279,12 +297,19 @@ public struct WallpaperCanvas: View {
               let lower = AttributedString.Index(range.lowerBound, within: attributed),
               let upper = AttributedString.Index(range.upperBound, within: attributed)
         else { return attributed }
-        attributed[lower..<upper].foregroundColor = accent
-        attributed[lower..<upper].inlinePresentationIntent = .stronglyEmphasized
+        attributed[lower..<upper].foregroundColor = palette.exampleHighlight
         return attributed
     }
 
     static func hourStamp(for hourIndex: Int) -> String {
+        WallpaperCanvasHour.stamp(for: hourIndex)
+    }
+}
+
+/// Wall-clock label for an hour index, public so callers outside the package
+/// (the app's CI export path) can name files consistently with the design.
+public enum WallpaperCanvasHour {
+    public static func stamp(for hourIndex: Int) -> String {
         let hour = ((hourIndex % 24) + 24) % 24
         return String(format: "%02d:00", hour)
     }
@@ -295,6 +320,8 @@ public struct WallpaperCanvas: View {
 private struct Metrics {
     let size: CGSize
     let layout: WallpaperLayout
+    /// Scales every type size at once, so a quieter theme is one number.
+    let typeScale: CGFloat
 
     var width: CGFloat { size.width }
     var height: CGFloat { size.height }
@@ -331,16 +358,16 @@ private struct Metrics {
         }
     }
 
-    var captionSize: CGFloat { height * 0.0125 }
-    var metaSize: CGFloat { height * 0.0150 }
-    var articleSize: CGFloat { height * 0.0270 }
-    var translationSize: CGFloat { height * 0.0225 }
-    var exampleSize: CGFloat { height * 0.0195 }
+    var captionSize: CGFloat { height * 0.0115 * typeScale.clamped(min: 0.8) }
+    var metaSize: CGFloat { height * 0.0150 * typeScale }
+    var articleSize: CGFloat { height * 0.0270 * typeScale }
+    var translationSize: CGFloat { height * 0.0225 * typeScale }
+    var exampleSize: CGFloat { height * 0.0195 * typeScale }
 
     /// Long compounds get a smaller starting point so `minimumScaleFactor`
     /// never has to squash them into illegibility.
     func wordSize(for word: String) -> CGFloat {
-        let base = height * 0.076
+        let base = height * 0.076 * typeScale
         switch word.count {
         case 0...7: return base
         case 8...10: return base * 0.86
@@ -349,6 +376,11 @@ private struct Metrics {
         default: return base * 0.50
         }
     }
+}
+
+private extension CGFloat {
+    /// Keeps the smallest labels legible when the whole scale is pulled down.
+    func clamped(min lower: CGFloat) -> CGFloat { Swift.max(self, lower) }
 }
 
 // MARK: - Ember placement

@@ -13,6 +13,15 @@ struct SettingsView: View {
                 previewSection
 
                 Section("Design") {
+                    Picker("Theme", selection: $model.settings.theme) {
+                        ForEach(WallpaperTheme.allCases, id: \.self) { theme in
+                            Text(theme.title).tag(theme)
+                        }
+                    }
+                    Text(model.settings.theme.subtitle)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
                     Picker("Layout", selection: $model.settings.layout) {
                         ForEach(WallpaperLayout.allCases, id: \.self) { layout in
                             Text(layout.title).tag(layout)

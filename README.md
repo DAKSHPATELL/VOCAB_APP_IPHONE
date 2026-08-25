@@ -84,14 +84,20 @@ Build and run on a device; widgets are only really testable on hardware.
 
 ### If you are signing with a free Apple ID
 
-App Groups are not available to free personal teams — only to paid Apple
-Developer Program accounts. With a free Apple ID the build fails at the signing
-step until you remove the capability:
+Two things block a free personal team: App Groups is a paid Developer Program
+capability, and the bundle identifiers in this repo are the author's — two
+people cannot register the same App ID. One command fixes both:
 
-1. Delete `com.apple.security.application-groups` from both `.entitlements`
-   files (or clear `CODE_SIGN_ENTITLEMENTS` on both targets).
-2. Everything still builds and runs. `SharedStore` falls back to standard
-   `UserDefaults`, and Settings will honestly report `App Group: Not configured`.
+```bash
+python3 tools/prepare_free_signing.py --bundle-id com.yourname.vokabel
+python3 tools/generate_xcodeproj.py
+```
+
+Then open the project, set your Team on **both** targets, and press Run.
+`--restore` puts the App Group back if you later get a paid account.
+
+Everything still builds and runs. `SharedStore` falls back to standard
+`UserDefaults`, and Settings will honestly report `App Group: Not configured`.
 
 The only thing you lose is the app and the widget sharing settings: the widget
 falls back to the defaults instead of following your filters. The word shown

@@ -10,6 +10,7 @@ public struct WallpaperSettings: Codable, Equatable, Sendable {
     /// Empty means "every part of speech".
     public var partsOfSpeech: Set<VocabEntry.PartOfSpeech>
 
+    public var theme: WallpaperTheme
     public var layout: WallpaperLayout
     public var showTranslation: Bool
     public var showExample: Bool
@@ -35,15 +36,16 @@ public struct WallpaperSettings: Codable, Equatable, Sendable {
         levels: [.a1, .a2, .b1, .b2],
         categories: [],
         partsOfSpeech: [],
+        theme: .graphite,
         layout: .lockScreen,
         showTranslation: true,
         showExample: true,
         showExampleTranslation: true,
         showInflection: true,
         showHourStamp: true,
-        emberIntensity: 0.62,
-        grain: 0.35,
-        vignette: 0.55,
+        emberIntensity: 0.55,
+        grain: 0.10,
+        vignette: 0.0,
         seed: 0x5645_524E_4143_4B54,
         canvasID: nil,
         supersample: false
@@ -53,6 +55,7 @@ public struct WallpaperSettings: Codable, Equatable, Sendable {
         levels: Set<VocabEntry.Level>,
         categories: Set<String>,
         partsOfSpeech: Set<VocabEntry.PartOfSpeech>,
+        theme: WallpaperTheme,
         layout: WallpaperLayout,
         showTranslation: Bool,
         showExample: Bool,
@@ -69,6 +72,7 @@ public struct WallpaperSettings: Codable, Equatable, Sendable {
         self.levels = levels
         self.categories = categories
         self.partsOfSpeech = partsOfSpeech
+        self.theme = theme
         self.layout = layout
         self.showTranslation = showTranslation
         self.showExample = showExample
@@ -94,6 +98,7 @@ public struct WallpaperSettings: Codable, Equatable, Sendable {
         levels = value(.levels, fallback.levels)
         categories = value(.categories, fallback.categories)
         partsOfSpeech = value(.partsOfSpeech, fallback.partsOfSpeech)
+        theme = value(.theme, fallback.theme)
         layout = value(.layout, fallback.layout)
         showTranslation = value(.showTranslation, fallback.showTranslation)
         showExample = value(.showExample, fallback.showExample)
